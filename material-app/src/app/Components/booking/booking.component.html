@@ -1,8 +1,14 @@
 <h4>New Booking</h4>
-<mat-form-field class="w-100">
-    <input type="text" matInput placeholder="Enter Name here...!"/>
+<mat-form-field  floatLabel="auto" class="w-100" appearance="fill" color="primary"> 
+    <input type="text" matInput placeholder="Enter Name here...!" required="It is important filed"/>
     <mat-label> First Name</mat-label>
-    
+    <mat-hint align="end">Upto to 30 charecter</mat-hint>
+    <mat-icon matPrefix="start">email</mat-icon>
+</mat-form-field>
+<mat-form-field floatLabel="auto" hideRequiredMarker appearance="outline" class="w-100" color="primary">
+    <input type="text" matInput placeholder="Enter Name here...!" required="It is important filed"/>
+    <mat-label> First Name</mat-label>
+    <mat-hint align="end">Upto to 30 charecter</mat-hint>
 </mat-form-field>
 <div class="mb">
     <button mat-mini-fab color="primary" class="mr">
