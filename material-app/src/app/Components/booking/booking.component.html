@@ -1,15 +1,22 @@
 <h4>New Booking</h4>
-<mat-form-field  floatLabel="auto" class="w-100" appearance="fill" color="primary"> 
-    <input type="text" matInput placeholder="Enter Name here...!" required="It is important filed"/>
-    <mat-label> First Name</mat-label>
-    <mat-hint align="end">Upto to 30 charecter</mat-hint>
-    <mat-icon matPrefix="start">email</mat-icon>
+
+<!-- input -->
+<mat-form-field class="w-100" floatLabel="auto" hideRequiredMarker appearance="fill" color="primary">
+  <input type="email" matInput placeholder="Enter Customer Email" required="required" />
+  <mat-label>Email</mat-label>
+  <mat-hint align="end">Up to 30 characters</mat-hint>
+  <mat-icon matPrefix>email</mat-icon>
 </mat-form-field>
-<mat-form-field floatLabel="auto" hideRequiredMarker appearance="outline" class="w-100" color="primary">
-    <input type="text" matInput placeholder="Enter Name here...!" required="It is important filed"/>
-    <mat-label> First Name</mat-label>
-    <mat-hint align="end">Upto to 30 charecter</mat-hint>
+
+<mat-form-field class="w-100" floatLabel="auto" hideRequiredMarker appearance="outline" color="primary">
+  <input type="text" matInput placeholder="Enter Customer Name" required="required" />
+  <mat-label>Customer Name</mat-label>
+  <mat-hint align="end">Up to 30 characters</mat-hint>
 </mat-form-field>
+
+<!-- floatLabel: auto | always | never -->
+<!-- align: start | end -->
+<!-- appearance: legacy | standard | fill | outline -->
 <div class="mb">
     <button mat-mini-fab color="primary" class="mr">
       <mat-icon>save</mat-icon>
