@@ -1,5 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { FormControl, FormGroup,Validators } from '@angular/forms';
+import { CustomErrorStateMatcher } from 'src/app/Helpers/CustomErrorStateMatcher';
 import { CountriesService } from 'src/app/services/countries.service';
 
 @Component({
@@ -11,6 +12,7 @@ export class BookingComponent implements OnInit {
 
 countries:any;
 formGroup:FormGroup;
+customErrorStateMatcher:CustomErrorStateMatcher=new CustomErrorStateMatcher();
   constructor(private countriesservice:CountriesService) {
     this.formGroup = new FormGroup({
       email: new FormControl(null,[Validators.required,Validators.email]),
