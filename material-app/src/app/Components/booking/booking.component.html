@@ -1,5 +1,5 @@
 <h4>New Booking</h4>
-<form [formGroup]="formGroup" >
+<form [formGroup]="formGroup">
   <!-- input -->
   <mat-form-field class="w-100" floatLabel="auto"  color="primary">
     <input type="email" matInput placeholder="Enter Customer Email" formControlName="email" [errorStateMatcher]="customErrorStateMatcher" />
@@ -12,7 +12,7 @@
     <mat-error *ngIf="getFormControl('email').hasError('email')" [innerHTML]="getErrorMessage('email', 'email')"></mat-error>
   </mat-form-field>
 
-  <mat-form-field class="w-100" floatLabel="auto" color="primary">
+  <mat-form-field class="w-100" floatLabel="auto"  color="primary">
     <input type="text" matInput placeholder="Enter Customer Name" formControlName="customerName" [errorStateMatcher]="customErrorStateMatcher" />
     <mat-label>Customer Name</mat-label>
     <mat-hint align="end">Up to 30 characters</mat-hint>
@@ -25,7 +25,7 @@
     <mat-error *ngIf="getFormControl('customerName').hasError('maxlength')" [innerHTML]="getErrorMessage('customerName', 'maxlength')"></mat-error>
   </mat-form-field>
 
-  <mat-form-field class="w-100" floatLabel="auto"  color="primary">
+  <mat-form-field class="w-100" floatLabel="auto" color="primary">
     <mat-select formControlName="country">
       <mat-option *ngFor="let country of countries" [value]="country.id">{{country.countryName}}</mat-option>
     </mat-select>
@@ -43,6 +43,7 @@
     <mat-icon matPrefix>explore</mat-icon>
 
     <mat-autocomplete #citiesAutocomplete="matAutocomplete">
+      <mat-option *ngIf="isCitiesLoading">Loading...</mat-option>
       <mat-option *ngFor="let city of cities" [value]="city.cityName">{{city.cityName}}</mat-option>
     </mat-autocomplete>
   </mat-form-field>

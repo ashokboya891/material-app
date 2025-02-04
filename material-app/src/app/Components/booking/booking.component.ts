@@ -1,6 +1,9 @@
 import { Component, OnInit } from '@angular/core';
 import { FormControl, FormGroup,Validators } from '@angular/forms';
+import { debounceTime, switchMap, tap } from 'rxjs';
 import { CustomErrorStateMatcher } from 'src/app/Helpers/CustomErrorStateMatcher';
+import { City } from 'src/app/Models/City';
+import { CitiesService } from 'src/app/services/cities.service';
 import { CountriesService } from 'src/app/services/countries.service';
 
 @Component({
@@ -13,30 +16,11 @@ export class BookingComponent implements OnInit {
 countries:any;
 formGroup:FormGroup;
 customErrorStateMatcher:CustomErrorStateMatcher=new CustomErrorStateMatcher();
-cities: any[] = [
-  { id: 1, cityName: "Abu Dhabi" },
-  { id: 2, cityName: "Amsterdam" },
-  { id: 3, cityName: "Berlin" },
-  { id: 4, cityName: "Chicago" },
-  { id: 5, cityName: "Doha" },
-  { id: 6, cityName: "Dubai" },
-  { id: 7, cityName: "Istanbul" },
-  { id: 8, cityName: "Las Vegas" },
-  { id: 9, cityName: "London" },
-  { id: 10, cityName: "Los Angeles" },
-  { id: 11, cityName: "Moscow" },
-  { id: 12, cityName: "New York" },
-  { id: 13, cityName: "Paris" },
-  { id: 14, cityName: "San Francisco" },
-  { id: 15, cityName: "Seoul" },
-  { id: 16, cityName: "Singapore" },
-  { id: 17, cityName: "Sydney" },
-  { id: 18, cityName: "Tokyo" },
-  { id: 19, cityName: "Toronto" },
-  { id: 20, cityName: "Washington" }
-];
+isCitiesLoading: boolean = false;
+cities: City[]=[];
 
-  constructor(private countriesservice:CountriesService) {
+
+  constructor(private countriesservice:CountriesService,private citiesService: CitiesService) {
     this.formGroup = new FormGroup({
       email: new FormControl(null,[Validators.required,Validators.email]),
       customerName: new FormControl(null,[Validators.required,Validators.maxLength(30),Validators.pattern('[A-Za-z .]*$')]),
@@ -45,27 +29,46 @@ cities: any[] = [
 
     });
   }
-  ngOnInit(): void {
+  ngOnInit(): void
+  {
+    //countries
     this.countriesservice.getCountries().subscribe(
-      (resp)=>{
-        this.countries=resp;
+      (response) =>
+      {
+        this.countries = response;
       },
-      error=>{
+      (error) =>
+      {
         console.log(error);
-      }
-    );
-    this.submitted();
+      });
 
+    //ngOnInit
+    this.getFormControl("city").valueChanges
+    .pipe(
+      debounceTime(500),
+      tap(() => {
+        this.cities = [];
+        this.isCitiesLoading = true;
+      }),
+      switchMap((value) =>
+        this.citiesService.getCities(value).pipe(
+          tap(() => this.isCitiesLoading = false) // Stop loading after data is fetched
+        )
+      )
+    )
+    .subscribe((response) => {
+      this.cities = response.filter(city =>
+        city.cityName.toLowerCase().startsWith(this.getFormControl("city").value.toLowerCase())
+      );
+    });
+  
   }
-  //returns the form control instance based on the control name
-  getFormControl(controlName: string): FormControl
-  {
-    return this.formGroup.get(controlName) as FormControl;
-  }
-  submitted()
-  {
-    console.log(this.formGroup.value);
-  }
+
+   //returns the form control instance based on the control name
+   getFormControl(controlName: string): FormControl
+   {
+     return this.formGroup.get(controlName) as FormControl;
+   }
   //returns the error message based on the given control and error
   getErrorMessage(controlName: string, errorType: string): string
   {
