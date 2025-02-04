@@ -25,7 +25,8 @@ cities: City[]=[];
       email: new FormControl(null,[Validators.required,Validators.email]),
       customerName: new FormControl(null,[Validators.required,Validators.maxLength(30),Validators.pattern('[A-Za-z .]*$')]),
       country: new FormControl(null,[Validators.required]),
-      city: new FormControl(null)
+      city: new FormControl(null),
+      receiveNewsLetters: new FormControl(null)
 
     });
   }
@@ -45,13 +46,13 @@ cities: City[]=[];
     //ngOnInit
     this.getFormControl("city").valueChanges
     .pipe(
-      debounceTime(500),
+      debounceTime(100),
       tap(() => {
         this.cities = [];
         this.isCitiesLoading = true;
       }),
       switchMap((value) =>
-        this.citiesService.getCities(value).pipe(
+        this.citiesService.getCities().pipe(
           tap(() => this.isCitiesLoading = false) // Stop loading after data is fetched
         )
       )
