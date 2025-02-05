@@ -25,7 +25,7 @@
     <mat-error *ngIf="getFormControl('customerName').hasError('maxlength')" [innerHTML]="getErrorMessage('customerName', 'maxlength')"></mat-error>
   </mat-form-field>
 
-  <mat-form-field class="w-100" floatLabel="auto" color="primary">
+  <mat-form-field class="w-100" floatLabel="auto"  color="primary">
     <mat-select formControlName="country">
       <mat-option *ngFor="let country of countries" [value]="country.id">{{country.countryName}}</mat-option>
     </mat-select>
@@ -47,9 +47,27 @@
       <mat-option *ngFor="let city of cities" [value]="city.cityName">{{city.cityName}}</mat-option>
     </mat-autocomplete>
   </mat-form-field>
+
   <div class="ml mt">
     <mat-checkbox color="primary" formControlName="receiveNewsLetters">Receive News Letters</mat-checkbox>
   </div>
+
+  <div class="ml mt mb">
+    <mat-label>Hobbies:</mat-label>
+
+    <div>
+      <mat-checkbox formControlName="allHobbies" (change)="onAllHobbiesCheckBoxChange()" [indeterminate]="!allHobbiesSelected() && !noHobbiesSelected()">All</mat-checkbox>
+    </div>
+
+    <div formArrayName="hobbies">
+      <div *ngFor="let hobby of hobbiesFormArray.controls; let i = index">
+        <mat-checkbox [formControl]="hobbiesFormArrayControl(i)" color="primary" (change)="onHobbyChange(i)">
+          {{hobbies[i].hobbyName}}
+        </mat-checkbox>        
+      </div>    
+    </div>
+  </div>
+
   <!-- Stroked Buttons -->
   <div class="mb mt">
     <button mat-stroked-button color="primary" class="mr">Save</button>
