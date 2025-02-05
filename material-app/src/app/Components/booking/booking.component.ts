@@ -36,7 +36,8 @@ cities: City[]=[];
       city: new FormControl(null),
       receiveNewsLetters: new FormControl(null),  
       hobbies: new FormArray([]),
-      allHobbies: new FormControl(false)
+      allHobbies: new FormControl(false),
+      gender: new FormControl(null, [Validators.required])
 
       
     });
@@ -161,6 +162,13 @@ cities: City[]=[];
           else
             return "";
         }
+        case "gender":
+          {
+            if (errorType === "required")
+              return "Choose gender either Male or Female or Others";
+            else
+              return "";
+          }
 
       default: return "";
     }
