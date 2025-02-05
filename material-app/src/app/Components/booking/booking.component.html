@@ -94,11 +94,14 @@
     <div class="box-2">
         <mat-form-field>
           <mat-label>DOB:</mat-label>
-          <input type="text" matInput [matDatepicker]="dobDatepicker" [min]="minDate" [max]="maxDate"/>
+          <input type="text" matInput [matDatepicker]="dobDatepicker" formControlName="dateOfBirth" [min]="minDate" [max]="maxDate" 
+          [matDatepickerFilter]="dateFilter" (dateChange)="onDateChange()"/>
           <mat-datepicker-toggle matSuffix [for]="dobDatepicker">
             <mat-icon matDatepickerToggleIcon>event_available</mat-icon>
           </mat-datepicker-toggle>
-          <mat-datepicker #dobDatepicker startView="year"></mat-datepicker>
+          <mat-datepicker #dobDatepicker startView="month" touchUi></mat-datepicker>
+        <mat-hint align="end">{{dateHint}}</mat-hint>
+        <mat-icon matPrefix>calendar_today</mat-icon>
 
         </mat-form-field>
     </div>

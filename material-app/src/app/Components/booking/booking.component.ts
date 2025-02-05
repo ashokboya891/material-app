@@ -33,6 +33,8 @@ cities: City[]=[];
   dateHint: string = "Choose date of birth";
   startDate: Date = new Date("2002-01-01");
 
+  
+
   constructor(private countriesservice:CountriesService,private citiesService: CitiesService) {
     this.formGroup = new FormGroup({
       email: new FormControl(null,[Validators.required,Validators.email]),
@@ -53,7 +55,7 @@ cities: City[]=[];
         this.hobbiesFormArray.push(new FormControl(false));
       });
   }
-  dateFilter(date:Date)
+  dateFilter(date:any)
   {
     return date && date.getDay() !== 0 && date.getDay() !== 6;
   }
@@ -63,7 +65,7 @@ cities: City[]=[];
     if (this.formGroup.value.dateOfBirth)
     {
       let date = new Date(this.formGroup.value.dateOfBirth);
-      this.dateHint = `You born on ${date.toString().substr(0, date.toString().indexOf(" "))}`;
+      this.dateHint = `You born on ${date.toString().substring(0, date.toString().indexOf(" "))}`;
     }
     else
     {
