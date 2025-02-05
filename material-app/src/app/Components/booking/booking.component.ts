@@ -27,6 +27,11 @@ cities: City[]=[];
   { id: 4, hobbyName: "Pets" },
   { id: 5, hobbyName: "Hiking" },
 ];
+  //date-picker
+  minDate: Date = new Date("1950-01-01");
+  maxDate: Date = new Date("2010-12-31");
+  dateHint: string = "Choose date of birth";
+  startDate: Date = new Date("2002-01-01");
 
   constructor(private countriesservice:CountriesService,private citiesService: CitiesService) {
     this.formGroup = new FormGroup({
@@ -37,7 +42,8 @@ cities: City[]=[];
       receiveNewsLetters: new FormControl(null),  
       hobbies: new FormArray([]),
       allHobbies: new FormControl(false),
-      gender: new FormControl(null, [Validators.required])
+      gender: new FormControl(null, [Validators.required]),
+      dateOfBirth: new FormControl(null)
 
       
     });
@@ -47,6 +53,24 @@ cities: City[]=[];
         this.hobbiesFormArray.push(new FormControl(false));
       });
   }
+  dateFilter(date:Date)
+  {
+    return date && date.getDay() !== 0 && date.getDay() !== 6;
+  }
+
+  onDateChange()
+  {
+    if (this.formGroup.value.dateOfBirth)
+    {
+      let date = new Date(this.formGroup.value.dateOfBirth);
+      this.dateHint = `You born on ${date.toString().substr(0, date.toString().indexOf(" "))}`;
+    }
+    else
+    {
+      this.dateHint = "Choose date of birth";
+    }
+  }
+
   hobbiesFormArrayControl(i:number):FormControl{
     return this.hobbiesFormArray.at(i) as FormControl;
   }

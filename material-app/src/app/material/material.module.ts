@@ -8,6 +8,9 @@ import { MatSelectModule } from "@angular/material/select";
 import { MatAutocompleteModule } from "@angular/material/autocomplete";
 import { MatCheckboxModule } from "@angular/material/checkbox";
 import { MatRadioModule } from "@angular/material/radio";
+import { MatDatepickerModule } from "@angular/material/datepicker";
+import { MatNativeDateModule } from "@angular/material/core";
+
 const MaterialComponents=[
   MatButtonModule,
   MatIconModule,
@@ -16,7 +19,9 @@ const MaterialComponents=[
     MatSelectModule,
     MatAutocompleteModule,
     MatCheckboxModule,
-    MatRadioModule
+    MatRadioModule,
+    MatDatepickerModule,
+    MatNativeDateModule
 ]
 @NgModule({
   declarations: [],
@@ -26,7 +31,7 @@ const MaterialComponents=[
   ],
   exports:[
     MaterialComponents,
-    
+
   ]
 })
 export class MaterialModule { }
