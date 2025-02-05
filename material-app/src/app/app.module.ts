@@ -7,6 +7,17 @@ import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { MaterialModule  } from "./material/material.module";
 import { BookingComponent } from './Components/booking/booking.component';
 import {  FormsModule,ReactiveFormsModule} from "@angular/forms";
+import { MAT_DATE_LOCALE,DateAdapter,MatDateFormats, MAT_DATE_FORMATS } from "@angular/material/core";
+import { MAT_MOMENT_DATE_FORMATS,MomentDateAdapter,MAT_MOMENT_DATE_ADAPTER_OPTIONS } from "@angular/material-moment-adapter";
+
+export const MY_FORMATS = {
+  parse: { dateInput: 'LL' },
+  display: {
+    dateInput: 'LL',
+    monthYearLabel: 'MMMM YYYY',
+  }
+};
+
 @NgModule({
   declarations: [
     AppComponent,
@@ -20,7 +31,18 @@ import {  FormsModule,ReactiveFormsModule} from "@angular/forms";
     HttpClientModule,
     ReactiveFormsModule,FormsModule
   ],
-  providers: [],
+  providers: [
+    //format for country base culture like fe-FR (french)
+    //{provide: MAT_DATE_LOCALE,useValue:"de-DE"}
+    {
+      provide: DateAdapter,
+      useClass: MomentDateAdapter,
+      deps: [
+        MAT_DATE_LOCALE, MAT_MOMENT_DATE_ADAPTER_OPTIONS
+      ]
+    },
+    {provide:MAT_DATE_FORMATS,useValue:MY_FORMATS}
+  ], 
   bootstrap: [AppComponent]
 })
 export class AppModule { }
