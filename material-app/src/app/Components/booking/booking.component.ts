@@ -1,5 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { FormControl, FormGroup,Validators,FormArray } from '@angular/forms';
+import { MatChipsModule } from '@angular/material/chips';
 import { debounceTime, switchMap, tap } from 'rxjs';
 import { CustomErrorStateMatcher } from 'src/app/Helpers/CustomErrorStateMatcher';
 import { City } from 'src/app/Models/City';
@@ -9,7 +10,7 @@ import { CountriesService } from 'src/app/services/countries.service';
 @Component({
   selector: 'app-booking',
   templateUrl: './booking.component.html',
-  styleUrls: ['./booking.component.css']
+  styleUrls: ['./booking.component.css'],
 })
 export class BookingComponent implements OnInit {
 
@@ -200,5 +201,52 @@ cities: City[]=[];
 
       default: return "";
     }
+    
+  }
+  onOkClick()
+  {
+    console.log("CLICKED")
+  }
+
+  //chips
+  All: boolean = true;
+  UK: boolean = false;
+  USA: boolean = false;
+  banks: any[] = [];
+  banksOfUK: any[] = [
+    { bankName: "HSBC", countryName: "UK" },
+    { bankName: "Royal Bank of Scotland", countryName: "UK" },
+  ];
+  banksOfUSA: any[] = [
+    { bankName: "JPMorgan Chase", countryName: "USA" },
+    { bankName: "Bank of America", countryName: "USA" },
+  ];
+
+  //All chip clicked
+  AllCountriesClicked()
+  {
+    // this.banks = [...this.banksOfUK, ...this.banksOfUSA];
+    this.banks = this.banksOfUSA.concat(this.banksOfUK);  //same meaning as above one
+    this.All = true;
+    this.UK = false;
+    this.USA = false;
+  }
+
+  //UK chip clicked
+  UKClicked()
+  {
+    this.banks = [...this.banksOfUK];
+    this.All = false;
+    this.UK = true;
+    this.USA = false;
+  }
+
+  //USA chip clicked
+  USAClicked()
+  {
+    this.banks = [...this.banksOfUSA];
+    this.All = false;
+    this.UK = false;
+    this.USA = true;
   }
 }

@@ -9,7 +9,7 @@ import { BookingComponent } from './Components/booking/booking.component';
 import {  FormsModule,ReactiveFormsModule} from "@angular/forms";
 import { MAT_DATE_LOCALE,DateAdapter,MatDateFormats, MAT_DATE_FORMATS } from "@angular/material/core";
 import { MAT_MOMENT_DATE_FORMATS,MomentDateAdapter,MAT_MOMENT_DATE_ADAPTER_OPTIONS } from "@angular/material-moment-adapter";
-
+import { MatChipsModule  } from "@angular/material/chips";
 export const MY_FORMATS = {
   parse: { dateInput: 'LL' },
   display: {

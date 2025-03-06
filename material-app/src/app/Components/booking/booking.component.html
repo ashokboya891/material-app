@@ -78,14 +78,32 @@
           <mat-error *ngIf="getFormControl('gender').hasError('required')" [innerHTML]="getErrorMessage('gender', 'required')"></mat-error>
         </mat-radio-group>
       </div>
-    
+      <!-- button toggle -->
+  <div class="mb mt">
+    <mat-label>Expertise Level:</mat-label>
+    <mat-button-toggle-group formControlName="expertiseLevel">
+      <mat-button-toggle value="Beginner">Beginner</mat-button-toggle>
+      <mat-button-toggle value="Intermediate">Intermediate</mat-button-toggle>
+      <mat-button-toggle value="Senior">Senior</mat-button-toggle>
+      <mat-button-toggle value="Professional">Professional</mat-button-toggle>
+      <mat-button-toggle value="Expert">Expert</mat-button-toggle>
+    </mat-button-toggle-group>
+  </div>
       <!-- Stroked Buttons -->
       <div class="mb mt">
         <button mat-stroked-button color="primary" class="mr">Save</button>
         <button mat-stroked-button color="accent" class="mr" type="button">Cancel</button>
         <button mat-stroked-button color="warn" class="mr" type="button">Delete</button>
       </div>
-    
+      
+      <!-- <div >
+        <mat-chip-grid #chipGrid>
+          <mat-chip-row color="primary" selected (click)="onOkClick()">Ok</mat-chip-row>
+          <mat-chip-row color="warn" >Cancel</mat-chip-row>
+
+        </mat-chip-grid>
+        
+      </div> -->
       <div>
         {{formGroup.value | json}}
       </div>
@@ -122,17 +140,28 @@
         </mat-form-field>
 
         <div class="mb mt">
-          <mat-label>Expertise Level:-</mat-label>
-          <mat-button-toggle-group formControlName="expertiseLevel" >
-            <mat-button-toggle value="Beginner">Beginner</mat-button-toggle>
-            <mat-button-toggle value="Intermediate">Intermediate</mat-button-toggle>
-            <mat-button-toggle value="Senior">Senior</mat-button-toggle>
-            <mat-button-toggle value="Professional">Professional</mat-button-toggle>
-            <mat-button-toggle value="Expert">Expert</mat-button-toggle>
-          </mat-button-toggle-group>
+          <div>
+            <mat-label>Banks:</mat-label>
+          </div>
+        
+          <!-- Use mat-chip-listbox instead of mat-chip-list -->
+          <mat-chip-listbox >
+            <mat-chip-option color="accent" [selected]="All" (click)="AllCountriesClicked()">All Countries</mat-chip-option>
+            <mat-chip-option color="accent" [selected]="UK" (click)="UKClicked()">UK</mat-chip-option>
+            <mat-chip-option color="accent" [selected]="USA" (click)="USAClicked()">USA</mat-chip-option>
+          </mat-chip-listbox>
+        
+          <ul>
+            <li *ngFor="let bank of banks">{{ bank.bankName }}, &nbsp;<small class="grey">{{ bank.countryName }}</small></li>
+          </ul>
         </div>
+
+        
+        
+        
     </div>
   </div>
  
 
 </form>
+
