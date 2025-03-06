@@ -120,6 +120,17 @@
   
           <mat-date-range-picker #picker></mat-date-range-picker>
         </mat-form-field>
+
+        <div class="mb mt">
+          <mat-label>Expertise Level:-</mat-label>
+          <mat-button-toggle-group formControlName="expertiseLevel" >
+            <mat-button-toggle value="Beginner">Beginner</mat-button-toggle>
+            <mat-button-toggle value="Intermediate">Intermediate</mat-button-toggle>
+            <mat-button-toggle value="Senior">Senior</mat-button-toggle>
+            <mat-button-toggle value="Professional">Professional</mat-button-toggle>
+            <mat-button-toggle value="Expert">Expert</mat-button-toggle>
+          </mat-button-toggle-group>
+        </div>
     </div>
   </div>
  
