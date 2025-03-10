@@ -10,6 +10,7 @@ import {  FormsModule,ReactiveFormsModule} from "@angular/forms";
 import { MAT_DATE_LOCALE,DateAdapter,MatDateFormats, MAT_DATE_FORMATS } from "@angular/material/core";
 import { MAT_MOMENT_DATE_FORMATS,MomentDateAdapter,MAT_MOMENT_DATE_ADAPTER_OPTIONS } from "@angular/material-moment-adapter";
 import { MatChipsModule  } from "@angular/material/chips";
+import { BookingListComponent } from './Components/booking-list/booking-list.component';
 export const MY_FORMATS = {
   parse: { dateInput: 'LL' },
   display: {
@@ -21,7 +22,8 @@ export const MY_FORMATS = {
 @NgModule({
   declarations: [
     AppComponent,
-    BookingComponent
+    BookingComponent,
+    BookingListComponent
   ],
   imports: [
     BrowserModule,
