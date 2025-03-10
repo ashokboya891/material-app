@@ -7,7 +7,7 @@ import { City } from 'src/app/Models/City';
 import { Fruit } from 'src/app/Models/Fruit';
 import { CitiesService } from 'src/app/services/cities.service';
 import { CountriesService } from 'src/app/services/countries.service';
-
+import { COMMA,ENTER } from "@angular/cdk/keycodes";
 @Component({
   selector: 'app-booking',
   templateUrl: './booking.component.html',
@@ -290,23 +290,43 @@ cities: City[]=[];
     { name: "Orange" }
   ];
 
-  // separatorKeysCodes: number[] = [ENTER, COMMA];
+  //  separatorKeysCodes: number[] = [ENTER, COMMA];
+  separatorKeysCodes: number[] = [ENTER, COMMA];
 
-  @ViewChild("fruitInput")
-  fruitInput!: ElementRef<HTMLInputElement>;
+  @ViewChild("fruitInput") fruitInput!: ElementRef<HTMLInputElement>;
 
-  //When the user presses any key like ENTER or COMMA after typing some text in the textbox
-  add(event:any): void
-  {
-    //Add textbox value as chip
-    if ((event.value || "").trim())
-    {
-      this.fruits.push({ name: event.value.trim() });
+ 
+    // ✅ Function to handle manual input and convert it to a chip
+    addChip(value: string): void {
+      const inputValue = value?.trim();
+      if (inputValue) {
+        // Avoid duplicates
+        if (!this.fruits.some(f => f.name.toLowerCase() === inputValue.toLowerCase())) {
+          this.fruits.push({ name: inputValue });
+          console.log(inputValue)
+          this.updateFruitsFormControl();
+
+        }
+      }
+  
+      // Reset the input field
+      this.fruitInput.nativeElement.value = '';
       this.formGroup.patchValue({ fruits: null });
-      this.fruitInput.nativeElement.value = "";
     }
-  }
-
+    //Update form control value whenever chip is added/removed
+    updateFruitsFormControl()
+    {
+      if (this.fruits.length > 0)
+      {
+        const fruitNames = this.fruits.map(f => f.name); // Extract fruit names
+        this.formGroup.get('fruits')?.setValue(fruitNames); // Push array value
+      }
+      else
+      {
+        this.formGroup.get('fruits')?.setValue(null); // Reset to null if empty
+      }
+    }
+    
   //When the user clicks (selects) an item in the auto complete
   selected(event:any)
   {

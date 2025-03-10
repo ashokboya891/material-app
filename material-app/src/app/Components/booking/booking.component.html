@@ -92,35 +92,66 @@
 
   
   <!-- Chips with autocomplete -->
-  <mat-form-field class="w-100" >
+  <mat-form-field class="w-100">
+
+
+               <!-- input -->
+
     <mat-label>Fav Fruits</mat-label>
     <input 
+      #fruitInput
       type="text" 
-      placeholder="Type fruit name.." 
       matInput 
+      placeholder="Type fruit name.." 
       formControlName="fruits" 
-      [matAutocomplete]="fruitsAutocomplete"/>
-      
-    <mat-autocomplete #fruitsAutocomplete="matAutocomplete">
+      [matAutocomplete]="fruitsAutocomplete"
+      (keyup.enter)="addChip(fruitInput.value)"
+      (keyup.comma)="addChip(fruitInput.value)"
+      (blur)="addChip(fruitInput.value)"
+      >
+        <!-- auto complete -->
+    <mat-autocomplete #fruitsAutocomplete="matAutocomplete" (optionSelected)="selected($event)">
       <mat-option *ngFor="let fruit of filteredFruits | async" [value]="fruit.name">
         {{fruit.name}}
       </mat-option>
     </mat-autocomplete>
+  
+        <!-- chips -->
+
+    <mat-chip-listbox #Chiplist>
+      <mat-chip *ngFor="let fruit of fruits" (removed)="remove(fruit)">
+        {{fruit.name}}
+        <button matChipRemove>
+          <mat-icon>cancel</mat-icon>
+        </button>
+      </mat-chip>
+    </mat-chip-listbox>
+  
   </mat-form-field>
   
-  <!-- <mat-form-field class="w-100">
-    <mat-label>Favourite Fruits</mat-label>
-      <mat-chip-listbox #chipList [multiple]="true">
-        <mat-chip-option 
-          *ngFor="let fruit of fruits" 
-          color="accent" 
-          [selected]="fruit.selected" 
-          (click)="toggleFruit(fruit)">
-          {{fruit.name}}
-          <mat-icon matChipRemove *ngIf="fruit.selected" (click)="remove(fruit, $event)">cancel</mat-icon>
-        </mat-chip-option>
-      </mat-chip-listbox>
-    </mat-form-field> -->
+<!-- <mat-form-field class="w-100">
+  <mat-label>Fav Fruits</mat-label>
+
+  <input 
+    type="text" 
+    matInput 
+    placeholder="Type fruit name.." 
+    formControlName="fruits" 
+    [matAutocomplete]="fruitsAutocomplete" >
+  
+  
+  <mat-autocomplete #fruitsAutocomplete="matAutocomplete" (optionSelected)="selected($event)">
+    <mat-option *ngFor="let fruit of filteredFruits | async" [value]="fruit.name">
+      {{fruit.name}}
+    </mat-option>
+  </mat-autocomplete>
+  
+  <mat-chip-listbox #Chiplist>
+    <mat-chip *ngFor="let fruit of fruits">{{fruit.name}}</mat-chip>
+  </mat-chip-listbox>
+
+</mat-form-field> -->
+
   
 
       <!-- Stroked Buttons -->
