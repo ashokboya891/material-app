@@ -1,9 +1,10 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, ElementRef, OnInit, ViewChild } from '@angular/core';
 import { FormControl, FormGroup,Validators,FormArray } from '@angular/forms';
 import { MatChipsModule } from '@angular/material/chips';
-import { debounceTime, switchMap, tap } from 'rxjs';
+import { debounceTime, map, Observable, startWith, switchMap, tap } from 'rxjs';
 import { CustomErrorStateMatcher } from 'src/app/Helpers/CustomErrorStateMatcher';
 import { City } from 'src/app/Models/City';
+import { Fruit } from 'src/app/Models/Fruit';
 import { CitiesService } from 'src/app/services/cities.service';
 import { CountriesService } from 'src/app/services/countries.service';
 
@@ -50,6 +51,8 @@ cities: City[]=[];
       studyPeriodStart: new FormControl(null),
       studyPeriodEnd: new FormControl(null),
       expertiseLevel: new FormControl(null),
+      fruits: new FormControl(null)
+
       
     });
      //add form controls to form array
@@ -58,6 +61,19 @@ cities: City[]=[];
         this.hobbiesFormArray.push(new FormControl(false));
       });
       this.AllCountriesClicked();
+
+        //chips with autocomplete
+    this.filteredFruits = this.getFormControl("fruits").valueChanges.pipe(
+      startWith(''),
+      map((fruit: string | null) =>
+      {
+        return fruit ?
+          (() =>
+          {
+            return this.allFruits.filter(fruitObj => fruitObj.name.toLowerCase().indexOf(fruit.toLowerCase()) === 0);
+          })()
+          : this.allFruits.slice();
+      }));
   }
   dateFilter(date:any)
   {
@@ -249,5 +265,64 @@ cities: City[]=[];
     this.All = false;
     this.UK = false;
     this.USA = true;
+  }
+
+  
+  //chips with autocomplete
+  allFruits: Fruit[] = [
+    { name: "Apple" },
+    { name: "Apricot" },
+    { name: "Banana" },
+    { name: "Blueberry" },
+    { name: "Grape" },
+    { name: "Honeydew" },
+    { name: "Kiwi" },
+    { name: "Lemon" },
+    { name: "Mandarin" },
+    { name: "Mango" },
+    { name: "Nectarine" },
+    { name: "Orange" },
+    { name: "Strawberry" },
+    { name: "Watermelon" }
+  ];
+  filteredFruits: Observable<Fruit[]>;
+  fruits: Fruit[] = [
+    { name: "Orange" }
+  ];
+
+  // separatorKeysCodes: number[] = [ENTER, COMMA];
+
+  @ViewChild("fruitInput")
+  fruitInput!: ElementRef<HTMLInputElement>;
+
+  //When the user presses any key like ENTER or COMMA after typing some text in the textbox
+  add(event:any): void
+  {
+    //Add textbox value as chip
+    if ((event.value || "").trim())
+    {
+      this.fruits.push({ name: event.value.trim() });
+      this.formGroup.patchValue({ fruits: null });
+      this.fruitInput.nativeElement.value = "";
+    }
+  }
+
+  //When the user clicks (selects) an item in the auto complete
+  selected(event:any)
+  {
+    this.fruits.push({ name: event.option.viewValue });
+    this.formGroup.patchValue({ fruits: null });
+    this.fruitInput.nativeElement.value = "";
+  }
+
+  //When the user clicks on Remove button for this chip
+  remove(fruit:any)
+  {
+    const index = this.fruits.indexOf(fruit);
+
+    if (index >= 0)
+    {
+      this.fruits.splice(index, 1);
+    }
   }
 }

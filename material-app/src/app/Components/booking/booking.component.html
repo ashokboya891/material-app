@@ -89,6 +89,40 @@
       <mat-button-toggle value="Expert">Expert</mat-button-toggle>
     </mat-button-toggle-group>
   </div>
+
+  
+  <!-- Chips with autocomplete -->
+  <mat-form-field class="w-100" >
+    <mat-label>Fav Fruits</mat-label>
+    <input 
+      type="text" 
+      placeholder="Type fruit name.." 
+      matInput 
+      formControlName="fruits" 
+      [matAutocomplete]="fruitsAutocomplete"/>
+      
+    <mat-autocomplete #fruitsAutocomplete="matAutocomplete">
+      <mat-option *ngFor="let fruit of filteredFruits | async" [value]="fruit.name">
+        {{fruit.name}}
+      </mat-option>
+    </mat-autocomplete>
+  </mat-form-field>
+  
+  <!-- <mat-form-field class="w-100">
+    <mat-label>Favourite Fruits</mat-label>
+      <mat-chip-listbox #chipList [multiple]="true">
+        <mat-chip-option 
+          *ngFor="let fruit of fruits" 
+          color="accent" 
+          [selected]="fruit.selected" 
+          (click)="toggleFruit(fruit)">
+          {{fruit.name}}
+          <mat-icon matChipRemove *ngIf="fruit.selected" (click)="remove(fruit, $event)">cancel</mat-icon>
+        </mat-chip-option>
+      </mat-chip-listbox>
+    </mat-form-field> -->
+  
+
       <!-- Stroked Buttons -->
       <div class="mb mt">
         <button mat-stroked-button color="primary" class="mr">Save</button>
