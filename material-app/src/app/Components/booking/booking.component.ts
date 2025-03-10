@@ -57,6 +57,7 @@ cities: City[]=[];
       {
         this.hobbiesFormArray.push(new FormControl(false));
       });
+      this.AllCountriesClicked();
   }
   dateFilter(date:any)
   {

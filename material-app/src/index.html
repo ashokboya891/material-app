@@ -14,3 +14,31 @@
   <app-root></app-root>
 </body>
 </html>
+
+<!-- <body oncontextmenu="return false;" onkeydown="disableKey(event)">
+  <app-root></app-root>
+
+  <script>
+    function disableKey(event) {
+      if (
+        event.ctrlKey && 
+        (event.key === 'u' || event.key === 'U' ||     // Ctrl + U (View Source)
+         event.key === 's' || event.key === 'S' ||     // Ctrl + S (Save As)
+         event.key === 'c' || event.key === 'C' ||     // Ctrl + C (Copy)
+         event.key === 'x' || event.key === 'X' ||     // Ctrl + X (Cut)
+         event.key === 'v' || event.key === 'V' ||     // Ctrl + V (Paste)
+         event.key === 'i' || event.key === 'I' ||     // Ctrl + Shift + I (Inspect)
+         event.key === 'j' || event.key === 'J' ||     // Ctrl + Shift + J (Console)
+         event.key === 'k' || event.key === 'K')       // Ctrl + K (Search)
+      ) {
+        event.preventDefault();
+      }
+
+      // Disable F12 key
+      if (event.keyCode === 123) {
+        event.preventDefault();
+      }
+    }
+  </script>
+</body> -->
+
