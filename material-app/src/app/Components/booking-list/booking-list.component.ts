@@ -1,9 +1,10 @@
 import { Component, OnInit, ViewChild } from '@angular/core';
 import { Booking } from 'src/app/Models/Booking';
 import { BookingsService } from 'src/app/services/bookings.services';
-import {MatTableDataSource } from "@angular/material/table";
+import { MatTableDataSource } from "@angular/material/table";
 import { MatPaginator } from '@angular/material/paginator';
 import { MatSort } from '@angular/material/sort';
+
 @Component({
   selector: 'app-bookings-list',
   templateUrl: './booking-list.component.html',
@@ -11,32 +12,51 @@ import { MatSort } from '@angular/material/sort';
 })
 export class BookingListComponent implements OnInit {
 
-   //properties
-   bookings!: MatTableDataSource<Booking> ;
-   columnsToDisplay: string[] = ['customerName', 'location', 'date', 'actions'];
+  //properties
+  bookings!: MatTableDataSource<Booking>;
+  columnsToDisplay: string[] = ['customerName', 'location', 'date', 'actions'];
+  isLoadingCompleted: boolean = false;
+  rows: Booking[] = [];
+  bookingLoadingStatus: string = "Loading...";
+  isError: boolean = false;
+  totalCount: number = 0;
 
-   @ViewChild(MatPaginator) paginator!: MatPaginator;
-   @ViewChild(MatSort) sort!: MatSort;
-  //when we click on column it will send that to data source so datasource sort data and sends sorted array as data
+  @ViewChild(MatPaginator) paginator!: MatPaginator;
+  @ViewChild(MatSort) sort!: MatSort;
 
-   constructor(private bookingsService: BookingsService) { }
- 
-   ngOnInit(): void
-   {
-     this.bookingsService.getBookings().subscribe(
-       (response: Booking[]) =>
-       {
-         this.bookings = new MatTableDataSource<Booking>(response);
- 
-         this.bookings.paginator = this.paginator;
-         this.bookings.sort = this.sort;
-       },
-       (error) =>
-       {
-         console.log(error);
-       }
-     );
-   }
+  constructor(private bookingsService: BookingsService) { }
 
-   //here paginator and matdatasource are binded so if we tap anything in pagination it will inform matadatasource that will inform mattable after that by the inputs it has taken from pagintor it will sort the data
+  ngOnInit(): void {
+    // Fetch bookings from API
+    this.bookingsService.getBookings().subscribe(
+      (response: Booking[]) => {
+        // Bind response to the table
+        this.bookings = new MatTableDataSource<Booking>(response);
+  
+        // Set paginator and sorting
+        this.bookings.paginator = this.paginator;
+        this.bookings.sort = this.sort;
+        this.rows = response;
+        this.totalCount = response.length;
+  
+        // Check if data is empty
+        if (response.length === 0) {
+          this.bookingLoadingStatus = "❌ No data to fetch";
+        } else {
+          this.bookingLoadingStatus = "✔ Total Bookings: " + response.length;
+        }
+  
+        // Loading completed
+        this.isLoadingCompleted = true;
+      },
+      (error) => {
+        // Handle error
+        console.log(error);
+        this.bookingLoadingStatus = "❌ Error fetching the data";
+        this.isError = true;
+        this.isLoadingCompleted = true;
+      }
+    );
+  }
+  
 }
