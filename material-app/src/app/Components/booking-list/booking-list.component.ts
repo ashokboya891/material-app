@@ -3,6 +3,7 @@ import { Booking } from 'src/app/Models/Booking';
 import { BookingsService } from 'src/app/services/bookings.services';
 import {MatTableDataSource } from "@angular/material/table";
 import { MatPaginator } from '@angular/material/paginator';
+import { MatSort } from '@angular/material/sort';
 @Component({
   selector: 'app-bookings-list',
   templateUrl: './booking-list.component.html',
@@ -15,6 +16,8 @@ export class BookingListComponent implements OnInit {
    columnsToDisplay: string[] = ['customerName', 'location', 'date', 'actions'];
 
    @ViewChild(MatPaginator) paginator!: MatPaginator;
+   @ViewChild(MatSort) sort!: MatSort;
+  //when we click on column it will send that to data source so datasource sort data and sends sorted array as data
 
    constructor(private bookingsService: BookingsService) { }
  
@@ -26,6 +29,7 @@ export class BookingListComponent implements OnInit {
          this.bookings = new MatTableDataSource<Booking>(response);
  
          this.bookings.paginator = this.paginator;
+         this.bookings.sort = this.sort;
        },
        (error) =>
        {

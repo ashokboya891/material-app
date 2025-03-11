@@ -14,6 +14,7 @@ import{MatButtonToggleModule} from "@angular/material/button-toggle";
 import { MatChipsModule } from "@angular/material/chips";
 import { MatTableModule } from "@angular/material/table";
 import {  MatPaginatorModule} from "@angular/material/paginator";
+import {  MatSortModule} from "@angular/material/sort";
 const MaterialComponents=[
   MatButtonModule,
   MatIconModule,
@@ -28,7 +29,8 @@ const MaterialComponents=[
     MatButtonToggleModule,
     MatChipsModule,
     MatTableModule,
-    MatPaginatorModule
+    MatPaginatorModule,
+    MatSortModule
 ]
 @NgModule({
   declarations: [],
