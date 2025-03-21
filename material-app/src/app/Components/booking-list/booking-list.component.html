@@ -35,10 +35,27 @@
       </ng-container>
       <!-- actions column definition ends -->
 
-      <!-- loading / progress -->
-      <ng-container matColumnDef="loading">
-        <td mat-footer-cell *matFooterCellDef class="text-center text-italic" colspan="6">{{bookingLoadingStatus}}</td>
-      </ng-container>
+     <!-- loading / progress -->
+     <ng-container matColumnDef="loading">
+      <td mat-footer-cell *matFooterCellDef class="text-center text-italic" colspan="6">
+        <div *ngIf="isError" class="text-center text-danger">
+          <p>❌ Error fetching the data</p>
+        </div>
+        
+        <div *ngIf="isLoadingCompleted && totalCount === 0 && !isError" class="text-center">
+          <p>❌ No Bookings Found</p>
+        </div>
+        <!-- <div [ngClass]="{ 'hidden': isError}">
+          <mat-spinner diameter="40" class="margin-auto"></mat-spinner>
+        </div>
+        {{bookingLoadingStatus}} -->
+        <!-- ✅ Loading Spinner (While Loading Data) -->
+<div *ngIf="!isLoadingCompleted" class="text-center">
+  <mat-spinner diameter="40"  class="margin-auto"></mat-spinner>
+  <p>{{bookingLoadingStatus}}</p>
+</div>
+      </td>
+    </ng-container>
 
 
       <!-- header row and data rows -->
@@ -49,11 +66,11 @@
       <tr mat-footer-row *matFooterRowDef="['customerName', 'date']; sticky: true" class="text-italic font-weight-bold" [ngClass]="{ 'hidden': !isLoadingCompleted}"></tr>
 
       <tr mat-footer-row *matFooterRowDef="[ 'loading']" [ngClass]="{ 'hidden': isLoadingCompleted}"></tr>
-      
+
     </table>
   </div>
 
   <div [ngClass]="{ 'hidden': !isLoadingCompleted}">
-    <mat-paginator [pageSize]="5" [pageSizeOptions]="[ 5, 10, 20]" showFirstLastButtons></mat-paginator>
+    <mat-paginator [pageSize]="5" [pageSizeOptions]="[ 2,5, 10, 20]" showFirstLastButtons></mat-paginator>
   </div>
 </form>
