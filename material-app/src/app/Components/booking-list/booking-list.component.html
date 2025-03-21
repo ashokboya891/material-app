@@ -1,5 +1,12 @@
 <h2>Bookings List</h2>
-<form>
+<form [formGroup]="formGroup">
+  <mat-form-field appearance="fill" class="w-100">
+    <mat-label>Search</mat-label>
+    <input type="search" matInput formControlName="search" (keyup)="filterBookings()"/>
+    <mat-icon matPrefix>search</mat-icon>
+    <mat-icon matSuffix class="hand-icon" (click)="clearFilter()">close</mat-icon>
+
+  </mat-form-field>
   <div class="table-container">
     <table mat-table [dataSource]="bookings" class="w-100" matSort>
 
@@ -45,11 +52,6 @@
         <div *ngIf="isLoadingCompleted && totalCount === 0 && !isError" class="text-center">
           <p>❌ No Bookings Found</p>
         </div>
-        <!-- <div [ngClass]="{ 'hidden': isError}">
-          <mat-spinner diameter="40" class="margin-auto"></mat-spinner>
-        </div>
-        {{bookingLoadingStatus}} -->
-        <!-- ✅ Loading Spinner (While Loading Data) -->
 <div *ngIf="!isLoadingCompleted" class="text-center">
   <mat-spinner diameter="40"  class="margin-auto"></mat-spinner>
   <p>{{bookingLoadingStatus}}</p>

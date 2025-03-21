@@ -4,13 +4,15 @@ import { BookingsService } from 'src/app/services/bookings.services';
 import { MatTableDataSource } from "@angular/material/table";
 import { MatPaginator } from '@angular/material/paginator';
 import { MatSort } from '@angular/material/sort';
-
+import { FormGroup,FormControl  } from "@angular/forms";
 @Component({
   selector: 'app-bookings-list',
   templateUrl: './booking-list.component.html',
   styleUrls: ['./booking-list.component.css']
 })
 export class BookingListComponent implements OnInit {
+
+
 
   //properties
   bookings!: MatTableDataSource<Booking>;
@@ -23,8 +25,12 @@ export class BookingListComponent implements OnInit {
 
   @ViewChild(MatPaginator) paginator!: MatPaginator;
   @ViewChild(MatSort) sort!: MatSort;
-
-  constructor(private bookingsService: BookingsService) { }
+  formGroup!:FormGroup;
+  constructor(private bookingsService: BookingsService) { 
+    this.formGroup = new FormGroup({
+    search:new FormControl(null)
+  });
+}
 
   ngOnInit(): void {
     // Fetch bookings from API
@@ -58,5 +64,19 @@ export class BookingListComponent implements OnInit {
       }
     );
   }
-  
+  filterBookings()
+  {
+    this.formGroup.value;
+    const search = this.formGroup.get('search')?.value;
+    console.log(search);
+    if(this.formGroup.value!=null && this.bookings)
+    {
+      this.bookings.filter=this.formGroup.value.search.trim();
+    }
+  }
+  clearFilter()
+  {
+    this.formGroup.patchValue({search:""})
+    this.filterBookings();
+  }
 }
