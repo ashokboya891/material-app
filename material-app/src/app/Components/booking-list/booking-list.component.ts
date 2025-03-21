@@ -44,16 +44,36 @@ export class BookingListComponent implements OnInit {
         this.bookings.sort = this.sort;
         this.rows = response;
         this.totalCount = response.length;
-  
+       
+      
         // Check if data is empty
         if (response.length === 0) {
           this.bookingLoadingStatus = "❌ No data to fetch";
         } else {
           this.bookingLoadingStatus = "✔ Total Bookings: " + response.length;
         }
-  
+    
         // Loading completed
         this.isLoadingCompleted = true;
+
+         //filter predicate
+         this.bookings.filterPredicate=(data,filter)=>{
+          let data2={...data};
+          if(filter)
+          {
+            filter=filter.toLowerCase();
+          }
+          if(data2.customerName)
+          {
+            data2.customerName=data.customerName.toLowerCase();
+          }
+          if(data2.location)
+            {
+              data2.location=data.location.toLowerCase();
+            }
+          
+            return data2.customerName.indexOf(filter)!=-1 || data2.location.indexOf(filter)!=-1;
+         }
       },
       (error) => {
         // Handle error
